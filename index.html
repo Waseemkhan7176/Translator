@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Meaning</title>
+    <style>
+        input{
+            height: 30px;
+            width: 200px;
+            border-radius: 5px;
+            border: none;
+        }
+        button{
+            height: 30px;
+            border-radius: 5px;
+            border: none;
+
+        }
+    </style>
+    <script>
+    async function getmeaning(){
+        const word=document.getElementById("wordinput").value;
+        console.log(word);
+        const url=`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
+        try{
+            const response=await fetch(url);
+            const data=await response.json();
+            
+            if(response.ok){
+                const meaning=data[0].meanings[0].definitions[0].definition;
+                console.log(meaning);
+                document.getElementById("meaning").innerHTML=meaning;
+                document.getElementById("meaning").style.color="red";
+
+
+            }
+            else{
+                document.getElementById("meaning").textContent="Word is not found";
+            }
+        }
+
+         catch (error){
+            document.getElementById("meaning").textContent="error fetching data";
+
+         }
+         
+    }
+    </script>
+
+</head>
+<body >
+    <center>
+        <div style="border: 5px solid black;border-radius: 20px;width: 600px;margin-top: 200px;height: 200px;padding: 30px 0px;background-color: rgba(0, 128, 0,.4);">
+    <h1> Word meaning Fitcher</h1>
+    <input type="text" name="" id="wordinput" placeholder="Enter a Word">
+    <button onclick="getmeaning()">Get Meaning </button>
+    <h3>Meaning :</h3>
+    <p id="meaning"></p>
+</div>
+</center>
+</body>
+</html>
